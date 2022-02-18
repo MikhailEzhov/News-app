@@ -1,0 +1,26 @@
+
+// ПЕРЕМЕННЫЕ:
+$breakpointXXLnumber: 1399.98; // - проверять на 1400 - большие маниторы
+$breakpointXLnumber: 1199.98; // - проверять на 1200 - маниторы
+$breakpointLGnumber: 991.98; // - проверять на 992 - планшеты перевернутые
+$breakpointMDnumber: 767.98; // - проверять на 768 - планшеты
+$breakpointSMnumber: 575.98; // - проверять на 576 - телефоны
+$breakpointMY320number: 320; // - проверять на 320 - телефоны
+// $breakpointXSnumber: 0; // - не использую
+
+
+$breakpointXXLpx: 1399.98px; // - проверять на 1400 - большие маниторы
+$breakpointXLpx: 1199.98px; // - проверять на 1200 - маниторы
+$breakpointLGpx: 991.98px; // - проверять на 992 - планшеты перевернутые
+$breakpointMDpx: 767.98px; // - проверять на 768 - планшеты
+$breakpointSMpx: 575.98px; // - проверять на 576 - телефоны
+$breakpointMY320px: 320px; // - проверять на 320 - телефоны
+// $breakpointXSpx: 0px; // - не использую
+
+
+// шпаргалка - как в scss применять брейкпоинты:
+// &__title {
+//     font-size: 36px;
+//     @media (max-width: $breakpointXLpx) {
+//         font-size: 24px;
+//     }

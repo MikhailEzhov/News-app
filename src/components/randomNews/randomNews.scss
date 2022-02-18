@@ -1,0 +1,54 @@
+@import "../../scss/_media.scss";
+
+.random {
+    margin-bottom: 20px;
+
+    &__block {
+        display: flex;
+        align-items: center;
+    }
+
+    &__title {
+        display: inline;
+        margin-right: 30px;
+    }
+
+    &__button {
+        font-size: 15px;
+        color: #FDFDFD;
+        background-color: #121221;
+        border-radius: 8px;
+        padding: 5px;
+        @import "../../scss/_animation-buttons.scss";
+    }
+
+    &__article {
+    }
+}
+
+.article {
+    display: flex;
+    gap: 10px;
+    @media (max-width: $breakpointSMpx) {
+        gap: 0px;
+        flex-wrap: wrap;
+    }
+
+    &__block {
+        
+    }
+
+    &__picture {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    &__info {
+    }
+
+    &__title {
+    }
+
+    &__description {
+    }
+}

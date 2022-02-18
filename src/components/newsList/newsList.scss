@@ -1,0 +1,49 @@
+@import "../../scss/_media.scss";
+
+.other {
+    padding-bottom: 20px;
+
+    &__title{
+
+    }
+
+    &__grid{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__button{
+        margin: 0 auto;
+        display: block;
+        font-size: 15px;
+        color: #FDFDFD;
+        background-color: #121221;
+        border-radius: 8px;
+        padding: 5px;
+        @import "../../scss/_animation-buttons.scss";
+    }
+}
+
+.news{
+    padding: 10px;
+    width: 25%;
+    @media (max-width: $breakpointLGpx) {
+        width: 33.33%;
+    }
+    @media (max-width: $breakpointSMpx) {
+        width: 50%;
+    }
+
+    &__block{
+
+    }
+
+    &__picture{
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    &__title{
+        font-size: 20px;
+    }
+}

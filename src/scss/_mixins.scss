@@ -1,0 +1,47 @@
+// maxWidthContent - максимальная ширина только контента (это не ширина макета), только это передовать ($maxWidthContentNumber)
+// sizeOn_maxWidthContent - размер на максимал. ширине контента (на полном сайте), примеры (100  50  30  10)
+// property - свойства, примеры (margin  padding  gap)
+// sizeOn320 - размер на 320, примеры (40  20  5)
+
+@mixin adaptivPX($maxWidthContent, $sizeOn_maxWidthContent, $property, $sizeOn320) {
+    #{$property}: calc(
+        #{$sizeOn320 + px} + #{$sizeOn_maxWidthContent - $sizeOn320} * ((100vw - 320px) / #{$maxWidthContent - 320})
+    );
+}
+
+//----------------------------------------------------------------------------------------------------
+// ТОЛЬКО ПИКСИЛИ можно автоадаприровать !!!
+
+// ШПАРГАЛКА - как в scss сделать полный адаптив нужного свойства в пиксилях:
+// 1 - при верстке уже сделал свойства и значения (font-size: 999px)
+//                                                (width: 745px)
+
+// 2 - под ними надо это вставить, и изменить только (999, font-size, 44)
+//                                                   (745, width, 300)
+//     @media (max-width: ($maxWidthContentNumber - 1) + px) {
+//         @include adaptivPX($maxWidthContentNumber, 999, font-size, 44);
+//         @include adaptivPX($maxWidthContentNumber, 745, width, 300);
+//     } // можно менять только:                     это     это     это
+
+// 3 - под ним надо вставить это и ещё раз указать свойства и значения (font-size: 44px)
+//                                                                     (width: 300px)      
+//     @media (max-width: $breakpointMY320px) {
+//         font-size: 44px;
+//         width: 300px;
+//     } //   это     это
+
+// всё ! от самого большого до максимального контента будет держатся 999, потом полный адаптив до 320px, с 320px и ниже будет держатся 44
+
+// &__title {
+//     font-size: 999px;
+//     width: 745px;
+//     @media (max-width: ($maxWidthContentNumber - 1) + px) {
+//         @include adaptivPX($maxWidthContentNumber, 999, font-size, 44);
+//         @include adaptivPX($maxWidthContentNumber, 745, width, 300);
+//     } // можно менять только:                     это     это     это
+//     @media (max-width: $breakpointMY320px) {
+//         font-size: 44px;
+//         width: 300px;
+//     } //   это     это
+
+//---------------------------------------------------------------------------------------------------------------

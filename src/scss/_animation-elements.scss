@@ -1,0 +1,26 @@
+// общее:
+& {
+    cursor: pointer; // курсор
+    text-decoration: none; // убираю подчеркивание, если это ссылка
+    user-select: none; // запрещаю выделение текста
+    transition: all 250ms; // анимация
+    -webkit-tap-highlight-color: transparent; // на mobile убирает синий фон при нажатии кнопки
+}
+
+// когда элемент в фокусе - выбран:
+// &:focus {
+
+// }
+
+// когда над элементом наведена мышь:
+&:hover {
+    color: inherit; // цвет как у родителя (как и был)
+    transform: translateY(-1px); // приподнял
+    filter: brightness(125%); // яркость(по умолчанию 100%) - тут осветлил
+}
+
+// когда элемент активный - нажатый:
+&:active {
+    transform: translateY(0); // опустил
+    filter: brightness(75%); // яркость(по умолчанию 100%) - тут затемнил
+}
