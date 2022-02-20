@@ -27,6 +27,7 @@
 .news{
     padding: 10px;
     width: 25%;
+    @import "../../scss/_animation-elements.scss";
     @media (max-width: $breakpointLGpx) {
         width: 33.33%;
     }

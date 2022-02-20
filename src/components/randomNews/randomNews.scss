@@ -29,6 +29,7 @@
 .article {
     display: flex;
     gap: 10px;
+    @import "../../scss/_animation-elements.scss";
     @media (max-width: $breakpointSMpx) {
         gap: 0px;
         flex-wrap: wrap;

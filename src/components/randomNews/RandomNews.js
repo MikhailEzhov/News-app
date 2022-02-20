@@ -2,18 +2,13 @@ import { Component } from 'react';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import NewsService from '../../services/NewsService'; // подключили сервис - это классовый компонент
+import NewsService from '../../services/NewsService'; // подключаем сетевую-сервисную часть (это классовый-компонент)
 
 import './randomNews.scss';
 
 
 
-// ОСНОВНОЙ КОМПОНЕНТ, ОТВЕЧАЕТ ЗА ЛОГИКУ:---------------------------------------------------------------------
 class RandomNews extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.updateOneRandomNews();
-    // }
 
 
     // состояния:
@@ -24,11 +19,17 @@ class RandomNews extends Component {
     }
 
 
-    // создаём экземпляр от класса (классового компонента):
+    // создаём экземпляр от сетевой-сервисной части (от классового-компонента):
     newsService = new NewsService();
 
 
-    // метод-функция: когда данные загрузились:
+    // hook - компонент появился на странице, выполняем действия:
+    componentDidMount() {
+        this.updateOneRandomNews();
+    }
+
+
+    // метод-функция: когда рандомная новость загрузилась:
     onNewsLoaded = (oneRandomNews) => {
         this.setState({
             oneRandomNews, 
@@ -37,7 +38,15 @@ class RandomNews extends Component {
     }
 
 
-    // метод-функция: когда ошибка при загрузке:
+    // метод-функция: когда рандомная новость грузятся:
+    onNewsLoading = () => {
+        this.setState({
+            loading: true
+        })
+    }
+
+
+    // метод-функция: когда ошибка при загрузке рандомной новости:
     onError = () => {
         this.setState({
             loading: false,
@@ -55,6 +64,7 @@ class RandomNews extends Component {
             keyword += abc[Math.floor(Math.random() * abc.length)];
         }
         // console.log(keyword);
+        this.onNewsLoading(); // показывать спиннер перед загрузкой новости
         this.newsService
             .getOneNews(keyword)
             .then(this.onNewsLoaded) // загрузится ответ(новость) и передастся в метод-функцию onNewsLoaded
@@ -62,39 +72,15 @@ class RandomNews extends Component {
     }
 
 
-
-    render() {
-        const {oneRandomNews, loading, error} = this.state; // диструктурируем state
-
-        const errorMessage = error ? <ErrorMessage/> : null; // при ошибке
-        const spinner = loading ? <Spinner/> : null; // при загрузке
-        const content = !(loading || error) ? <DisplayRandomNews oneRandomNews={oneRandomNews}/> : null; // контент помещается на страницу: когда уже нет загрузки, или нет ошибки
-
+    // метод-функция: отображает на странице рандомную новость:
+    renderRandomNews = ({oneRandomNews}) => {
+        const {title, description, url, urlToImage} = oneRandomNews; // диструктурируем oneRandomNews
+    
         return (
-            <div className="random">
-                <div className="container">
-                    {errorMessage}
-                    {spinner}
-                    {content}
-                </div>
-            </div>
-        )
-    }
-}
-
-
-// КОМПОНЕНТ ОТВЕЧАЕТ ЗА ОТОБРАЖЕНИЕ НА СТРАНИЦЕ:---------------------------------------------------------
-const DisplayRandomNews = ({oneRandomNews}) => {
-    const {title, description, url, urlToImage} = oneRandomNews; // диструктурируем oneRandomNews
-
-    return (
-        <>
-            <div className="random__block">
-                <h2 className="random__title">Random News</h2>
-                <button className="random__button">Random</button>
-            </div>
-
-            <article className="article">
+            <article 
+                className="article"
+                tabIndex={0}
+                onClick={() => window.open(url, '_blank')}>
                 <div className="article__block">
                     <img className="article__picture" src={urlToImage} alt="Random News"/>
                 </div>
@@ -103,8 +89,34 @@ const DisplayRandomNews = ({oneRandomNews}) => {
                     <p className="article__description">{description}</p>
                 </div>
             </article>
-        </>
-    )
+        )
+    }
+
+
+
+    render() {
+        const {oneRandomNews, loading, error} = this.state; // диструктурируем state
+
+        const item = this.renderRandomNews({oneRandomNews}); // в item находится рандомная новость
+
+        const errorMessage = error ? <ErrorMessage/> : null; // при ошибке
+        const spinner = loading ? <Spinner/> : null; // при загрузке
+        const content = !(loading || error) ? item : null; // контент помещается на страницу: когда уже нет загрузки, или нет ошибки
+
+        return (
+            <div className="random">
+                <div className="container">
+                    <div className="random__block">
+                        <h2 className="random__title">Random News</h2>
+                        <button className="random__button" onClick={this.updateOneRandomNews}>Random</button>
+                    </div>
+                    {errorMessage}
+                    {spinner}
+                    {content}
+                </div>
+            </div>
+        )
+    }
 }
 
 
