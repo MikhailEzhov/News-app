@@ -75,7 +75,7 @@ class RandomNews extends Component {
     // метод-функция: отображает на странице рандомную новость:
     renderRandomNews = ({oneRandomNews}) => {
         const {title, description, url, urlToImage} = oneRandomNews; // диструктурируем oneRandomNews
-    
+        
         return (
             <article 
                 className="article"
@@ -96,13 +96,13 @@ class RandomNews extends Component {
 
     render() {
         const {oneRandomNews, loading, error} = this.state; // диструктурируем state
-
+        
         const item = this.renderRandomNews({oneRandomNews}); // в item находится рандомная новость
-
+        
         const errorMessage = error ? <ErrorMessage/> : null; // при ошибке
         const spinner = loading ? <Spinner/> : null; // при загрузке
         const content = !(loading || error) ? item : null; // контент помещается на страницу: когда уже нет загрузки, или нет ошибки
-
+        
         return (
             <div className="random">
                 <div className="container">

@@ -15,7 +15,10 @@ class NewsList extends Component {
     state = {
         newsList: [],
         loading: true,
-        error: false
+        error: false,
+        loadingNewItem: false,
+        count: 0,
+        published: ''
     }
 
 
@@ -32,12 +35,33 @@ class NewsList extends Component {
     }
 
 
-    // метод-функция: когда список новостей загрузился:
-    onNewsListLoaded = (newsList) => {
+    // метод-функция: запрашивает и дозагружает остальные новости:
+    onRequest(published) {
+        this.onNewsListLoading();
+        this.newsService
+            .getAllNews(published)
+            .then(this.onNewsListLoaded)
+            .catch(this.onError)
+    }
+
+
+    // метод-функция: когда список новостей дозагружается:
+    onNewsListLoading = () => {
         this.setState({
-            newsList,
-            loading: false
+            loadingNewItem: true
         })
+    }
+
+
+    // метод-функция: когда список новостей загрузился:
+    onNewsListLoaded = (newListNews) => {
+        this.setState(({newsList}) => ({
+            newsList: [...newsList, ...newListNews],
+            loading: false,
+            loadingNewItem: false
+        }))
+        this.nextCount();
+        this.backDate(this.state.count);
     }
 
 
@@ -46,6 +70,33 @@ class NewsList extends Component {
         this.setState({
             error: true,
             loading: false
+        })
+    }
+
+
+    // метод-функция: count увеличивает на 1 - нужно count передавать в backDate:
+    nextCount = () => {
+        this.setState({
+            count: this.state.count + 1
+        });
+    }
+
+
+    // метод-функция: меняет дату на сутки назад и записывает в state:
+    backDate = (num) => {
+        const currentDate = new Date();
+        
+        const backDate = currentDate.setDate(currentDate.getDate() - num);
+        const backDateFinal = new Date(backDate);
+        
+        const backDateFinalYear = backDateFinal.getFullYear();
+        const backDateFinalMonth = 1 + backDateFinal.getMonth();
+        const backDateFinalDay = backDateFinal.getDate();
+        
+        const strbackDateFinal = backDateFinalYear + '-0' + backDateFinalMonth + '-' + backDateFinalDay;
+        // return strbackDateFinal;
+        this.setState({
+            published: strbackDateFinal
         })
     }
 
@@ -76,14 +127,14 @@ class NewsList extends Component {
 
 
     render() {
-        const {newsList, loading, error} = this.state; // диструктурируем state
-
+        const {newsList, loading, error, loadingNewItem, count, published} = this.state; // диструктурируем state
+        
         const items = this.renderItems(newsList); // в items находится список новостей
-
+        
         const errorMessage = error ? <ErrorMessage/> : null; // при ошибке
         const spinner = loading ? <Spinner/> : null; // при загрузке
         const content = !(loading || error) ? items : null; // контент помещается на страницу: когда уже нет загрузки, или нет ошибки
-
+        
         return (
             <div className="other">
                 <div className="container">
@@ -91,7 +142,10 @@ class NewsList extends Component {
                     {errorMessage}
                     {spinner}
                     {content}
-                    <button className="other__button">load more</button>
+                    <button 
+                        className="other__button"
+                        disabled={loadingNewItem}
+                        onClick={() => this.onRequest(published)}>Load more</button>
                 </div>
             </div>
         )

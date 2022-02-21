@@ -24,12 +24,12 @@ class ErrorBoundary extends Component {
 
 
     render() {
-
+    
         // если произошла ошибка:
         if (this.state.error) {
             return <ErrorMessage/> // вернет: компонент для ошибки
         }
-
+    
         // если нет ошибки:
         return this.props.children; // вернет: дочерний компонент, который был обернут от ошибки
     }

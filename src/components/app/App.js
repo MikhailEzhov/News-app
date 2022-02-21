@@ -16,11 +16,11 @@ class App extends Component {
         return (
             <div className="app">
                 <AppHeader/>
-
+            
                 <ErrorBoundary>
                     <RandomNews/>
                 </ErrorBoundary>
-
+            
                 <ErrorBoundary>
                     <NewsList/>
                 </ErrorBoundary>
