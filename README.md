@@ -9,7 +9,7 @@ The application uses the API [https://www.thenewsapi.com/](https://www.thenewsap
 
 
 
-## Run the Notes-app locally
+## Run the News-app locally
 
 ### Step 1: Clone project
 
